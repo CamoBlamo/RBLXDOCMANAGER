@@ -84,3 +84,18 @@ li {
   border: 2px solid var(--border-color);
   border-radius: 10px;
 }
+.footer {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+.footer a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
