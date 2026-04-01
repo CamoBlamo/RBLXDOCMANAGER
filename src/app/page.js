@@ -31,6 +31,26 @@ export default function Home() {
 
       </div>
 
+      <div className="images">
+        <img src="/images/feature1.png" alt="Feature 1" />
+        <img src="/images/feature2.png" alt="Feature 2" />
+        <img src="/images/feature3.png" alt="Feature 3" />
+      </div>
+
+      <div className="contact-div">
+        <h2>Contact Us</h2>
+        <p>
+          If you have any questions, feedback, or need assistance with the Roblox Group Document Manager, please don't hesitate to contact us. You can reach us through our support email at    support@robloxgroupdocmanager.com or by filling out the contact form on our website. We value your feedback and are here to help you make the most out of our tool.
+        </p>
+      </div>
+
+      <div className="customer-testimonials">
+        <h2>Customer Testimonials</h2>
+        <p>
+          Coming Soon! We will be sharing testimonials from our satisfied customers who have benefited from using the Roblox Group Document Manager. Stay tuned for real stories and feedback from our users about how our tool has improved their group management experience.
+        </p>
+      </div>
+
 </div>
   );
 }
