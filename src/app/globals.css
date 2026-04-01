@@ -25,7 +25,7 @@ html, body {
   margin-bottom: 40px;
 }
 h1, h2 {
-  color: var(--secondary-color);
+  color: var(--text-color);
 }
 ul {
   list-style-type: none;
