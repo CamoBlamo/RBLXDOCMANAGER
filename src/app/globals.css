@@ -110,7 +110,7 @@ margin: 0 auto;
 .footer a:hover {
   text-decoration: underline;
 }
-.topbar {
+.Topbar {
   background-color: var(--primary-color);
   color: var(--text-color);
   display: flex;
@@ -118,12 +118,12 @@ margin: 0 auto;
   align-items: center;
   padding: 10px 20px;
 }
-.topbar a {
+.Topbar a {
   color: var(--text-color);
   text-decoration: none;
   font-weight: 500;
   margin-left: 20px;
 }
-.topbar a:hover {
+.Topbar a:hover {
   text-decoration: underline;
 }
