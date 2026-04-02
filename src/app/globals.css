@@ -15,13 +15,10 @@ html, body {
   font-family: var(--font-family);
 }
 .global-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  width: 100%;
+  padding: 20px;
 }
 .welcome-div, .features-div, .started-div, .staff-div, .staff-members {
   max-width: 800px;
