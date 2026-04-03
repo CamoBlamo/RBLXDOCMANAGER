@@ -1,5 +1,9 @@
+import Topbar from "../components/Topbar";
+
 export default function Features() {
     return (
+      <>
+      <Topbar />
       <div className="features-div">
         <h2>Features</h2>
         <ul>
@@ -10,5 +14,6 @@ export default function Features() {
           <li>Collaboration: Allow multiple administrators to collaborate on document management.</li>
         </ul>
       </div>
+      </>
     );
 }

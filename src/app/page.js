@@ -1,7 +1,8 @@
+import Topbar from "./components/Topbar";
 export default function Home() {
   return (
 <div className="global-div">
-
+    <Topbar />
     <div className="welcome-div">
       <h1>Roblox Group Document Manager</h1>
       <p>
@@ -10,28 +11,10 @@ export default function Home() {
 
       </div>
 
-      <div className="features-div">
-        <h2>Features</h2>
-        <ul>
-          <li>Document Creation: Easily create new documents for your Roblox group.</li>
-          <li>Editing Tools: Edit existing documents with a simple and intuitive interface.</li>
-          <li>Organization: Organize your documents into categories for easy access.</li>
-          <li>Version Control: Keep track of changes made to documents with version history.</li>
-          <li>Collaboration: Allow multiple administrators to collaborate on document management.</li>
-        </ul>
-      </div>
-
       <div className="images">
         <img src="/images/feature1.png" alt="Feature 1" />
         <img src="/images/feature2.png" alt="Feature 2" />
         <img src="/images/feature3.png" alt="Feature 3" />
-      </div>
-
-      <div className="contact-div">
-        <h2>Contact Us</h2>
-        <p>
-          If you have any questions, feedback, or need assistance with the Roblox Group Document Manager, please don't hesitate to contact us. You can reach us through our support email at    support@robloxgroupdocmanager.com or by filling out the contact form on our website. We value your feedback and are here to help you make the most out of our tool.
-        </p>
       </div>
 
 </div>

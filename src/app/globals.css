@@ -27,7 +27,8 @@ html, body {
 .started-div,
 .staff-div,
 .staff-members,
-.testimonials-div {
+.testimonials-div,
+.staff-member {
   width: min(800px, 100%);
   margin: 0 auto 40px auto;
   border: 2px solid var(--border-color);
@@ -137,4 +138,173 @@ margin: 0 auto;
 .Topbar a:hover {
   background-color: rgba(255, 255, 255, 0.12);
   text-decoration: none;
+}
+.dashboard-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 24px;
+}
+.dashboard-topbar nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+}
+.dashboard-topbar nav li {
+  margin: 0;
+}
+.dashboard-topbar a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.dashboard-topbar a:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+}
+.sign-in-div {
+  width: min(400px, 100%);
+  margin: 0 auto;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.sign-in-div h2 {
+  color: var(--text-color);
+  text-align: center;
+}
+.sign-in-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.sign-in-form button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.sign-in-form button:hover {
+  background-color: var(--hover-color);
+}
+.dashboard-div {
+  width: min(800px, 100%);
+  margin: 0 auto;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.dashboard-div h1 {
+  color: var(--text-color);
+  text-align: center;
+}
+.dashboard-div p {
+  color: var(--text-color);
+  text-align: center;
+}
+.dashboard-div a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+.dashboard-div a:hover {
+  text-decoration: underline;
+}
+.dashboard-workspaces {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+.workspace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.workspace-card-template {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.workspace-card-template h3 {
+  color: var(--text-color);
+  margin: 0 0 10px 0;
+}
+.workspace-card-template p {
+  color: var(--text-color);
+  margin: 0;
+}
+.workspace-card-template button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.workspace-card-template button:hover {
+  background-color: var(--hover-color);
+}
+.system-status {
+  width: min(400px, 100%);
+  margin: 0 auto;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.status-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.status-indicator.green {
+  background-color: #28a745;
+}
+.status-indicator.yellow {
+  background-color: #ffc107;
+}
+.status-indicator.red {
+  background-color: #dc3545;
+}
+.profile {
+  width: min(400px, 100%);
+  margin: 0 auto;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+}
+.profile-name {
+  color: var(--text-color);
+  font-size: 24px;
+  margin-top: 10px;
 }

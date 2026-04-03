@@ -1,5 +1,8 @@
+import Topbar from "../components/Topbar";
 export default function Started() {
     return (
+        <>
+        <Topbar />
         <div className="started-div">
             <h1>Getting Started</h1>
             <p>
@@ -7,5 +10,6 @@ export default function Started() {
             </p>
             <button id="get-started-btn">Get Started</button>
         </div>
+            </>
     );
 }
