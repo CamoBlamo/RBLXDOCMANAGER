@@ -416,3 +416,68 @@ margin: 0 auto;
     gap: 12px;
   }
 }
+.workspace-page,
+.workspace-documents,
+.workspace-settings {
+  width: min(800px, 100%);
+  margin: 0 auto 20px auto;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.workspace-document-card-template,
+.workspace-document-card {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+.workspace-document-card-template {
+  margin-top: 14px;
+}
+
+.workspace-document-card-template h3,
+.workspace-document-card h3 {
+  margin: 0 0 6px 0;
+}
+
+.workspace-document-card-template p,
+.workspace-document-card p {
+  margin: 0 0 10px 0;
+}
+
+.workspace-documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.workspace-settings-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#permissions-settings-btn,
+#department-settings-btn,
+#collaborators-settings-btn,
+#other-workspace-settings-btn {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+#permissions-settings-btn:hover,
+#department-settings-btn:hover,
+#collaborators-settings-btn:hover,
+#other-workspace-settings-btn:hover {
+  background-color: var(--hover-color);
+}
