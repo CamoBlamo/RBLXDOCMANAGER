@@ -1,16 +1,21 @@
+import Link from "next/link";
+
 function Topbar() {
     return (
 <div className="Topbar">
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/features">Features</a></li>
-        <li><a href="/started">Getting Started</a></li>
-        <li><a href="/contacts">Contact Us</a></li>
-        <li><a href="/testimonials">Testimonials</a></li>
-        <li><a href="/staff">Staff</a></li>
-      </ul>
-    </nav>
+    <div className="topbar-inner">
+      <nav>
+        <ul>
+          <li><Link href="/">Home</Link></li>
+          <li><Link href="/features">Features</Link></li>
+          <li><Link href="/started">Getting Started</Link></li>
+          <li><Link href="/contacts">Contact Us</Link></li>
+          <li><Link href="/testimonials">Testimonials</Link></li>
+          <li><Link href="/staff">Staff</Link></li>
+          <li><Link href="/sign-in">Sign In</Link></li>
+        </ul>
+      </nav>
+    </div>
   </div>
     );
 }
