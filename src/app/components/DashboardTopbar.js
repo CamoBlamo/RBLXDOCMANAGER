@@ -5,7 +5,7 @@ function DashboardTopbar() {
             <nav className="dashboard-nav">
                 <ul className="dashboard-nav-list">
                 <li><a href="/dashboard" className="dashboard-nav-link">Dashboard</a></li>
-                <li><a href="/dashboard/documents" className="dashboard-nav-link">Settings</a></li>
+                <li><a href="/dashboard/profile" className="dashboard-nav-link">Settings</a></li>
                 <li><a href="/dashboard/settings" className="dashboard-nav-link">Profile</a></li>
                 </ul>
             </nav>
