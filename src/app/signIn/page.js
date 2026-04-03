@@ -12,3 +12,5 @@ function signIn() {
         </div>
     );
 }
+
+export default signIn;
