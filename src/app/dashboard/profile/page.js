@@ -1,3 +1,4 @@
+import DashboardTopbar from "../../components/DashboardTopbar";
 function profile() {
     return (
         <>
