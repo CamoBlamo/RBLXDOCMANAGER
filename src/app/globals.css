@@ -215,34 +215,59 @@ margin: 0 auto;
   align-items: center;
   gap: 14px;
 }
+.sign-in-page {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px;
+  box-sizing: border-box;
+}
 .sign-in-div {
-  width: min(400px, 100%);
+  width: min(480px, 100%);
   margin: 0 auto;
   border: 2px solid var(--border-color);
   border-radius: 10px;
-  padding: 20px;
+  padding: 24px;
   box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(54, 70, 214, 0.16), rgba(54, 70, 214, 0));
+}
+.sign-in-div h1 {
+  margin: 0;
+  text-align: center;
+}
+.sign-in-div p {
+  margin: 10px 0 0;
+  text-align: center;
 }
 .sign-in-div h2 {
   color: var(--text-color);
   text-align: center;
+  margin: 0;
 }
 .sign-in-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-color);
 }
-.sign-in-form button {
+#discord-sign-in-btn {
   background-color: var(--secondary-color);
   color: var(--text-color);
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  border-radius: 15px;
+  border-radius: 10px;
 }
-.sign-in-form button:hover {
+#discord-sign-in-btn:hover {
   background-color: var(--hover-color);
+}
+.sign-in-note {
+  margin: 0;
+  font-size: 13px;
+  color: #b5b5b5;
 }
 .dashboard-div {
   width: min(800px, 100%);
@@ -251,6 +276,7 @@ margin: 0 auto;
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(54, 70, 214, 0.16), rgba(54, 70, 214, 0));
 }
 .dashboard-page {
   width: min(1000px, 100%);
@@ -261,10 +287,12 @@ margin: 0 auto;
 .dashboard-div h1 {
   color: var(--text-color);
   text-align: center;
+  margin: 0 0 8px;
 }
 .dashboard-div p {
   color: var(--text-color);
   text-align: center;
+  margin: 0;
 }
 .dashboard-div a {
   color: var(--text-color);
@@ -286,6 +314,7 @@ margin: 0 auto;
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.02);
 }
 .workspace-list {
   display: flex;
@@ -295,16 +324,17 @@ margin: 0 auto;
 .workspace-card-template {
   border: 2px solid var(--border-color);
   border-radius: 10px;
-  padding: 15px;
+  padding: 16px;
   box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.02);
 }
 .workspace-card-template h3 {
   color: var(--text-color);
-  margin: 0 0 10px 0;
+  margin: 0 0 8px;
 }
 .workspace-card-template p {
   color: var(--text-color);
-  margin: 0;
+  margin: 0 0 6px;
 }
 .workspace-card-template button {
   background-color: var(--secondary-color);
@@ -317,6 +347,45 @@ margin: 0 auto;
 }
 .workspace-card-template button:hover {
   background-color: var(--hover-color);
+}
+.dashboard-metrics {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.dashboard-metric-card {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  background-color: rgba(13, 10, 10, 0.7);
+}
+.metric-label {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b5b5b5;
+}
+.metric-value {
+  margin: 6px 0 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+.workspace-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.open-workspace-btn.secondary {
+  background-color: transparent;
+  border: 2px solid var(--border-color);
+}
+.open-workspace-btn.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
 }
 .system-status {
   margin: 0;
@@ -417,6 +486,10 @@ margin: 0 auto;
   .Topbar nav ul {
     flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .dashboard-metrics {
+    grid-template-columns: 1fr;
   }
 }
 .workspace-page,
