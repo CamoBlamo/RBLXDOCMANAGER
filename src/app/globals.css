@@ -5,6 +5,7 @@
   --text-color: #ffffff;
   --hover-color: #2a36b0;
   --border-color: #6f6f6f;
+  --topbar-gap: 16px;
   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 html, body {
@@ -129,6 +130,7 @@ margin: 0 auto;
   background-color: var(--primary-color);
   border-bottom: 1px solid var(--border-color);
   padding: 12px 24px;
+  margin-bottom: var(--topbar-gap);
 }
 
 .topbar-inner {
@@ -173,6 +175,7 @@ margin: 0 auto;
   background-color: var(--primary-color);
   border-bottom: 1px solid var(--border-color);
   padding: 12px 24px;
+  margin-bottom: var(--topbar-gap);
 }
 .dashboard-topbar-inner {
   width: min(1200px, 100%);
