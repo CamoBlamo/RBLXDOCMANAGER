@@ -10,13 +10,12 @@ const hasClerkKeys =
   Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) &&
   Boolean(process.env.CLERK_SECRET_KEY);
 
-const protectedProxy = clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
-});
-
 export const proxy = (req, event) => {
   // Avoid hard crashes when env vars are missing in a deployment.
   if (!hasClerkKeys) return NextResponse.next();
+  const protectedProxy = clerkMiddleware(async (auth, request) => {
+    if (isProtectedRoute(request)) await auth.protect();
+  });
   return protectedProxy(req, event);
 };
 
