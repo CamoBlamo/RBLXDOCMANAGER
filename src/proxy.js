@@ -1,21 +1,22 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const isProtectedRoute = createRouteMatcher([
-  "/dashboard(.*)",
-  "/workspace(.*)",
-]);
+const protectedPathPattern = /^\/(dashboard|workspace)(?:\/|$)/;
 
 const hasClerkKeys =
   Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) &&
   Boolean(process.env.CLERK_SECRET_KEY);
 
-export const proxy = (req, event) => {
+export const proxy = async (req, event) => {
   // Avoid hard crashes when env vars are missing in a deployment.
   if (!hasClerkKeys) return NextResponse.next();
+
+  const { clerkMiddleware } = await import("@clerk/nextjs/server");
   const protectedProxy = clerkMiddleware(async (auth, request) => {
-    if (isProtectedRoute(request)) await auth.protect();
+    if (protectedPathPattern.test(request.nextUrl.pathname)) {
+      await auth.protect();
+    }
   });
+
   return protectedProxy(req, event);
 };
 
