@@ -1,8 +1,10 @@
 import DashboardTopbar from "../../components/DashboardTopbar";
 import { currentUser } from "@clerk/nextjs/server";
+import { ensureUserRole } from "../../../lib/roles";
 
 export default async function SettingsPage() {
     const user = await currentUser();
+    await ensureUserRole(user);
     const discordAccount = user?.externalAccounts?.find(
         (account) => account.provider === "oauth_discord"
     );

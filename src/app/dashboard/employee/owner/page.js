@@ -1,12 +1,11 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import OwnerDashboardClient from "./OwnerDashboardClient";
-
-const OWNER_ROLES = ["owner", "admin"];
+import { OWNER_ROLES, ensureUserRole } from "../../../../lib/roles";
 
 export default async function OwnerDashboard() {
     const user = await currentUser();
-    const role = String(user?.publicMetadata?.role || "").toLowerCase();
+    const role = await ensureUserRole(user);
 
     if (!OWNER_ROLES.includes(role)) {
         redirect("/dashboard");

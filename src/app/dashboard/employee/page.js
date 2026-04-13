@@ -1,18 +1,11 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import EmployeeDashboardClient from "./EmployeeDashboardClient";
-
-const EMPLOYEE_PLUS_ROLES = [
-  "employee",
-  "supervisor",
-  "manager",
-  "admin",
-  "owner",
-];
+import { EMPLOYEE_PLUS_ROLES, ensureUserRole } from "../../../lib/roles";
 
 export default async function EmployeeDashboard() {
   const user = await currentUser();
-  const role = String(user?.publicMetadata?.role || "").toLowerCase();
+  const role = await ensureUserRole(user);
 
   if (!EMPLOYEE_PLUS_ROLES.includes(role)) {
     redirect("/dashboard");

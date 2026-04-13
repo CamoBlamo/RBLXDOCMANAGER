@@ -1,17 +1,7 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
+import { EMPLOYEE_PLUS_ROLES, OWNER_ROLES, normalizeRole } from "../../../../lib/roles";
 
-const ALLOWED_TARGET_ROLES = [
-  "user",
-  "employee",
-  "supervisor",
-  "manager",
-  "admin",
-  "owner",
-];
-
-function normalizeRole(roleValue) {
-  return String(roleValue || "").trim().toLowerCase();
-}
+const ALLOWED_TARGET_ROLES = ["user", ...EMPLOYEE_PLUS_ROLES];
 
 async function requireOwnerOrAdmin() {
   const { userId } = await auth();
@@ -23,7 +13,7 @@ async function requireOwnerOrAdmin() {
   const current = await client.users.getUser(userId);
   const currentRole = normalizeRole(current?.publicMetadata?.role);
 
-  if (currentRole !== "owner" && currentRole !== "admin") {
+  if (!OWNER_ROLES.includes(currentRole)) {
     return { error: new Response("Forbidden", { status: 403 }) };
   }
 
