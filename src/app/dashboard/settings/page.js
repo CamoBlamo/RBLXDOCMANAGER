@@ -32,8 +32,8 @@ export default async function SettingsPage() {
                 </div>
                 <div className="settings-options">
                     <button id="account-settings-btn">Account Settings</button>
-                    <button id="linked-accounts-btn">Account Standing</button>
-                    <button id="notification-preferences-btn">Other Preferences</button>
+                    <button id="account-standing-btn">Account Standing</button>
+                    <button id="other-settings-btn">Other Preferences</button>
                 </div>
             </main>
         </>
