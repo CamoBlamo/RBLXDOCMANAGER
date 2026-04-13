@@ -32,7 +32,7 @@ export default async function SettingsPage() {
                 </div>
                 <div className="settings-toolbar">
                     <button id="account-settings-btn">Account Settings</button>
-                    <button id="account-standing-btn">Account Standing</button>
+                    <button id="standing-settings-btn">Account Standing</button>
                     <button id="other-settings-btn">Other Preferences</button>
                 </div>
             </main>
