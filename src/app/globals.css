@@ -454,7 +454,7 @@ margin: 0 auto;
   margin-top: 20px;
   border: 1px solid var(--border-color);
   background-color: rgba(255, 255, 255, 0.02);
-  width: 100%;
+  width: fit-content;
   padding: 1px;
   border-radius: 10px;
   box-sizing: border-box;
