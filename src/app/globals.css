@@ -455,8 +455,9 @@ margin: 0 auto;
   border: 1px solid var(--border-color);
   background-color: rgba(255, 255, 255, 0.02);
   width: 100%;
-  padding: 10px;
+  padding: 1px;
   border-radius: 10px;
+  box-sizing: border-box;
 }
 #account-settings-btn,
 #standing-settings-btn,
