@@ -30,7 +30,7 @@ export default async function SettingsPage() {
                         This is your settings page. Here you can manage your account settings, linked accounts, notification preferences, and other configurations for the Roblox Group Document Manager.
                     </p>
                 </div>
-                <div className="settings-options">
+                <div className="settings-toolbar">
                     <button id="account-settings-btn">Account Settings</button>
                     <button id="account-standing-btn">Account Standing</button>
                     <button id="other-settings-btn">Other Preferences</button>
