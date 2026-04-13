@@ -457,6 +457,7 @@ margin: 0 auto;
   width: min(400px, 100%);
   box-sizing: border-box;
   padding: 10px;
+  border-radius: 10px;
 }
 #account-settings-btn,
 #standing-settings-btn,
