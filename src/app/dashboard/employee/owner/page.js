@@ -1,20 +1,14 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import EmployeeDashboardClient from "./EmployeeDashboardClient";
+import OwnerDashboardClient from "./OwnerDashboardClient";
 
-const EMPLOYEE_PLUS_ROLES = [
-  "employee",
-  "supervisor",
-  "manager",
-  "admin",
-  "owner",
-];
+const OWNER_ROLES = ["owner", "admin"];
 
-export default async function EmployeeDashboard() {
+export default async function OwnerDashboard() {
   const user = await currentUser();
   const role = String(user?.publicMetadata?.role || "").toLowerCase();
 
-  if (!EMPLOYEE_PLUS_ROLES.includes(role)) {
+  if (!OWNER_ROLES.includes(role)) {
     redirect("/dashboard");
   }
 
@@ -33,10 +27,9 @@ export default async function EmployeeDashboard() {
     "User";
 
   return (
-    <EmployeeDashboardClient
+    <OwnerDashboardClient
       profileImageUrl={profileImageUrl}
       profileName={profileName}
-      role={role}
     />
   );
 }

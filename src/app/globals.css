@@ -469,6 +469,10 @@ margin: 0 auto;
   font-size: 14px;
   cursor: pointer;
   border-radius: 10px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 #account-settings-btn:hover,
 #standing-settings-btn:hover,
@@ -565,274 +569,218 @@ margin: 0 auto;
 #other-workspace-settings-btn:hover {
   background-color: var(--hover-color);
 }
-.employee-dashboard-div {
-  width: min(800px, 100%);
-  margin: 0 auto 20px auto;
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-.nav-bar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.nav-item {
-  background-color: var(--secondary-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  align-items: center;
-  box-sizing: border-box;
-}
-.nav-item button {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  border: none;
-  padding: 10px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-.nav-item button:hover {
-  background-color: var(--hover-color);
-}
-.employee-dashboard-information {
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: rgba(13, 10, 10, 0.7);
-}
-.info-section1 {
-  margin-top: 20px;
-  color: var(--text-color);
-}
-.info-section1 h3 {
-  margin: 0 0 10px 0;
-}
-.info-section1 p {
-  margin: 0;
-}
-.info-links {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-}
-.info-links a {
-  color: var(--text-color);
-  text-decoration: none;
-  font-weight: 500;
-}
-.info-links a:hover {
-  text-decoration: underline;
-}
-.employee-dashboard-punishments {
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: rgba(13, 10, 10, 0.7);
-}
-.employee-dashboard-punishments h3 {
-  margin: 0 0 10px 0;
-  color: var(--text-color);
-}
-.employee-dashboard-punishments p {
-  margin: 0;
-  color: var(--text-color);
-}
-.punishment-list {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-}
-.punishment-item {
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  color: var(--text-color);
-}
-.employee-dashboard-payments {
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: rgba(13, 10, 10, 0.7);
-}
-.employee-dashboard-payments h3 {
-  margin: 0 0 10px 0;
-  color: var(--text-color);
-}
-.employee-dashboard-payments p {
-  margin: 0;
-  color: var(--text-color);
-}
-.payment-history {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-}
-.payment-item {
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  color: var(--text-color);
-}
-.payment-metrics {
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-}
+.employee-dashboard-information,
+.employee-dashboard-punishments,
+.employee-dashboard-payments,
 .employee-dashboard-settings {
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: rgba(13, 10, 10, 0.7);
-}
-.employee-dashboard-settings h3 {
-  margin: 0 0 10px 0;
-  color: var(--text-color);
-}
-.employee-dashboard-settings p {
-  margin: 0;
-  color: var(--text-color);
-}
-.settings-options {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-}
-.settings-option {
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  color: var(--text-color);
-}
-.settings-option button {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  border: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-.settings-option button:hover {
-  background-color: var(--hover-color);
-}
-.notification-preferences {     
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  color: var(--text-color);
-}
-.notification-options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
-}
-.notification-options button {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  border: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-.notification-options button:hover {
-  background-color: var(--hover-color);
-}
-.account-details {
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  color: var(--text-color);
-}
-.account-details button {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  border: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-.account-details button:hover {
-  background-color: var(--hover-color);
-}
-.employee-dashboard-page {
-  width: min(1000px, 100%);
-  margin: 0 auto;
-  padding: 24px 20px;
-  box-sizing: border-box;
+width: min(800px, 100%);
+margin: 16px auto 20px;
+border: 2px solid var(--border-color);
+border-radius: 12px;
+padding: 20px;
+box-sizing: border-box;
+background: linear-gradient(180deg, rgba(54, 70, 214, 0.12), rgba(54, 70, 214, 0.02));
 }
 
-.employee-dashboard-metrics {
-  margin-top: 18px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+.employee-dashboard-information h2,
+.employee-dashboard-punishments h2,
+.employee-dashboard-payments h2,
+.employee-dashboard-settings h2 {
+margin: 0 0 8px;
 }
 
-.employee-dashboard-metric-card {
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 14px;
-  text-align: center;
-  background-color: rgba(13, 10, 10, 0.7);
+.employee-dashboard-information > p,
+.employee-dashboard-punishments > p,
+.employee-dashboard-payments > p,
+.employee-dashboard-settings > p {
+margin: 0 0 14px;
+color: #d5d5d5;
+line-height: 1.45;
 }
 
+/* Hide inactive sections cleanly when using hidden prop */
+.employee-dashboard-information[hidden],
+.employee-dashboard-punishments[hidden],
+.employee-dashboard-payments[hidden],
+.employee-dashboard-settings[hidden] {
+display: none !important;
+}
+
+/* Toolbar polish to match rest of site */
+.settings-toolbar {
+margin-top: 14px;
+margin-bottom: 12px;
+}
+
+.settings-toolbar .open-workspace-btn {
+min-width: 170px;
+}
+
+.settings-toolbar .open-workspace-btn[aria-pressed="true"] {
+background-color: var(--hover-color);
+box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14) inset;
+}
+
+/* Inner section cards */
+.info-section1,
+.punishment-list,
+.payment-metrics,
+.payment-history,
+.settings-options,
+.notification-preferences,
+.account-details,
 .other-settings {
-  margin-top: 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  color: var(--text-color);
+margin-top: 14px;
+border: 1px solid var(--border-color);
+border-radius: 10px;
+padding: 12px;
+background-color: rgba(0, 0, 0, 0.18);
+box-sizing: border-box;
 }
 
+.info-links {
+flex-wrap: wrap;
+}
+
+.info-links a {
+padding: 6px 10px;
+border: 1px solid var(--border-color);
+border-radius: 8px;
+background-color: rgba(255, 255, 255, 0.03);
+}
+
+.settings-options button,
+.account-details button,
 .other-settings button {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  border: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 10px;
+margin-right: 8px;
+margin-bottom: 8px;
 }
 
-.other-settings button:hover {
-  background-color: var(--hover-color);
+/* Form controls */
+.notification-options label {
+display: flex;
+align-items: center;
+gap: 8px;
+color: var(--text-color);
 }
 
+.notification-options input[type="checkbox"] {
+accent-color: var(--secondary-color);
+}
+
+/* Mobile adjustments */
 @media (max-width: 900px) {
-  .employee-dashboard-metrics {
-    grid-template-columns: 1fr;
-  }
+.settings-toolbar {
+width: 100%;
+justify-content: stretch;
+}
+
+.settings-toolbar .open-workspace-btn {
+width: 100%;
+min-width: 0;
+}
+
+.payment-metrics {
+flex-direction: column;
+gap: 8px;
+}
 }
 #hidden-employee {
   display: none;
 }
 #shown-employee {
   display: block;
+}
+
+.owner-dashboard-section {
+  width: min(800px, 100%);
+  margin: 0 auto 20px auto;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(54, 70, 214, 0.12), rgba(54, 70, 214, 0.02));
+}
+
+.owner-dashboard-section h2 {
+  margin: 0 0 8px;
+}
+
+.owner-dashboard-section > p {
+  margin: 0;
+  color: #d5d5d5;
+}
+
+.owner-dashboard-metrics {
+  margin-top: 14px;
+}
+
+.owner-user-list {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.owner-user-row {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.owner-user-name {
+  margin: 0;
+  font-weight: 700;
+}
+
+.owner-user-meta {
+  margin: 6px 0 0;
+  color: #c2c2c2;
+  font-size: 13px;
+}
+
+.owner-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.owner-role-select {
+  min-width: 170px;
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.owner-saving {
+  color: #c9c9c9;
+  font-size: 13px;
+}
+
+.owner-error {
+  color: #ff9d9d;
+}
+
+@media (max-width: 900px) {
+  .owner-user-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .owner-user-controls {
+    width: 100%;
+  }
+
+  .owner-role-select {
+    width: 100%;
+    min-width: 0;
+  }
 }
