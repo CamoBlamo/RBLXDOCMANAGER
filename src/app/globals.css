@@ -565,3 +565,274 @@ margin: 0 auto;
 #other-workspace-settings-btn:hover {
   background-color: var(--hover-color);
 }
+.employee-dashboard-div {
+  width: min(800px, 100%);
+  margin: 0 auto 20px auto;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.nav-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nav-item {
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  align-items: center;
+  box-sizing: border-box;
+}
+.nav-item button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.nav-item button:hover {
+  background-color: var(--hover-color);
+}
+.employee-dashboard-information {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(13, 10, 10, 0.7);
+}
+.info-section1 {
+  margin-top: 20px;
+  color: var(--text-color);
+}
+.info-section1 h3 {
+  margin: 0 0 10px 0;
+}
+.info-section1 p {
+  margin: 0;
+}
+.info-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.info-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+.info-links a:hover {
+  text-decoration: underline;
+}
+.employee-dashboard-punishments {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(13, 10, 10, 0.7);
+}
+.employee-dashboard-punishments h3 {
+  margin: 0 0 10px 0;
+  color: var(--text-color);
+}
+.employee-dashboard-punishments p {
+  margin: 0;
+  color: var(--text-color);
+}
+.punishment-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+}
+.punishment-item {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text-color);
+}
+.employee-dashboard-payments {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(13, 10, 10, 0.7);
+}
+.employee-dashboard-payments h3 {
+  margin: 0 0 10px 0;
+  color: var(--text-color);
+}
+.employee-dashboard-payments p {
+  margin: 0;
+  color: var(--text-color);
+}
+.payment-history {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+}
+.payment-item {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text-color);
+}
+.payment-metrics {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+}
+.employee-dashboard-settings {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(13, 10, 10, 0.7);
+}
+.employee-dashboard-settings h3 {
+  margin: 0 0 10px 0;
+  color: var(--text-color);
+}
+.employee-dashboard-settings p {
+  margin: 0;
+  color: var(--text-color);
+}
+.settings-options {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+}
+.settings-option {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text-color);
+}
+.settings-option button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.settings-option button:hover {
+  background-color: var(--hover-color);
+}
+.notification-preferences {     
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text-color);
+}
+.notification-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.notification-options button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.notification-options button:hover {
+  background-color: var(--hover-color);
+}
+.account-details {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text-color);
+}
+.account-details button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.account-details button:hover {
+  background-color: var(--hover-color);
+}
+.employee-dashboard-page {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px;
+  box-sizing: border-box;
+}
+
+.employee-dashboard-metrics {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.employee-dashboard-metric-card {
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  background-color: rgba(13, 10, 10, 0.7);
+}
+
+.other-settings {
+  margin-top: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text-color);
+}
+
+.other-settings button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.other-settings button:hover {
+  background-color: var(--hover-color);
+}
+
+@media (max-width: 900px) {
+  .employee-dashboard-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+#hidden-employee {
+  display: none;
+}
+#shown-employee {
+  display: block;
+}
