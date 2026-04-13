@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import DashboardTopbar from "../../components/DashboardTopbar";
+import DashboardTopbar from "../../../components/DashboardTopbar";
 
 const ROLE_OPTIONS = ["user", "employee", "supervisor", "manager", "admin", "owner"];
 
