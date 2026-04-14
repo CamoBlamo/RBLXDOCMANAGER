@@ -1,6 +1,7 @@
 import DashboardTopbar from "../components/DashboardTopbar";
 import { currentUser } from "@clerk/nextjs/server";
 import { ensureUserRole } from "../../lib/roles";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -53,6 +54,10 @@ export default async function DashboardPage() {
         </div>
 
         <div className="dashboard-workspaces">
+          <p>Do not have a workspace yet? Create one to get started!</p>
+          <Link href="/newworkspace" className="create-workspace-btn">
+            + Create New Workspace
+          </Link>
           <h2>Your Workspaces</h2>
           <p>
             Here you can view and manage all your workspaces for the Roblox
@@ -65,7 +70,9 @@ export default async function DashboardPage() {
               <p><strong>Owner:</strong> Owner Name</p>
               <p><strong>Created On:</strong> Creation Date</p>
               <div className="workspace-card-actions">
-                <button className="open-workspace-btn">Open Workspace</button>
+                <Link href="/workspace" className="open-workspace-btn">
+                  Open Workspace
+                </Link>
                 <button className="open-workspace-btn secondary">
                   Manage Members
                 </button>
