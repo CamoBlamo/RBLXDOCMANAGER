@@ -21,7 +21,14 @@ export default async function SettingsPage() {
         "User";
 
     const email = user?.emailAddresses?.[0]?.emailAddress || "Not available";
-    const externalAccounts = user?.externalAccounts ?? [];
+    const externalAccounts = (user?.externalAccounts ?? []).map(a => ({
+  provider: a.provider,
+  providerUserId: a.providerUserId,
+  imageUrl: a.imageUrl,
+  username: a.username,
+  emailAddress: a.emailAddress,
+  label: a.label,
+}));
 
     return (
         <SettingsClient
