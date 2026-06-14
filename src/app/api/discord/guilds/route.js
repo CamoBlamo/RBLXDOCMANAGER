@@ -2,17 +2,19 @@ import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 async function getDiscordToken(userId) {
-  const getToken =
+  const getTokenMethod =
+    clerkClient?.users?.getUserOAuthAccessToken?.bind(clerkClient.users) ??
     clerkClient?.users?.getUserOauthAccessToken?.bind(clerkClient.users) ??
+    clerkClient?.getUserOAuthAccessToken?.bind(clerkClient) ??
     clerkClient?.getUserOauthAccessToken?.bind(clerkClient);
 
-  if (!getToken) {
+  if (!getTokenMethod) {
     throw new Error(
       "Clerk OAuth token retrieval is unavailable. Check your Clerk SDK version and imports."
     );
   }
 
-  const tokenResponse = await getToken(userId, "oauth_discord");
+  const tokenResponse = await getTokenMethod(userId, "oauth_discord");
 
   const tokenPayload =
     Array.isArray(tokenResponse) && tokenResponse.length > 0
