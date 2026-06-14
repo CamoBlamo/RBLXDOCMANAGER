@@ -1,14 +1,13 @@
-import { clerkClient, currentUser } from "@clerk/nextjs/server";
+import { createClerkClient, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+
+const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
 
 async function getDiscordToken(userId) {
   try {
-    const client = typeof clerkClient === "function" ? await clerkClient() : clerkClient;
-    const response = await client.users.getUserOauthAccessToken(userId, "oauth_discord");
-    
+    const response = await clerkClient.users.getUserOauthAccessToken(userId, "oauth_discord");
     const tokens = response?.data ?? (Array.isArray(response) ? response : []);
     const token = tokens[0];
-    
     return token?.token ?? token?.accessToken ?? token?.access_token ?? null;
   } catch (err) {
     console.error("Clerk token fetch failed:", err);
@@ -18,8 +17,6 @@ async function getDiscordToken(userId) {
 
 export async function GET() {
   try {
-    console.log("Clerk client type:", typeof clerkClient);
-
     const user = await currentUser();
 
     if (!user?.id) {
@@ -31,8 +28,7 @@ export async function GET() {
     if (!token) {
       return NextResponse.json(
         {
-          error:
-            "Discord account token not found. Reconnect Discord with the 'guilds' scope in Clerk.",
+          error: "Discord account token not found. Reconnect Discord with the 'guilds' scope in Clerk.",
         },
         { status: 400 }
       );
