@@ -50,32 +50,23 @@ export async function GET() {
     const guildsText = await guildsResponse.text();
 
     if (!guildsResponse.ok) {
-      const errorText = guildsText || guildsResponse.statusText || "No response body";
+      const details =
+        guildsText || guildsResponse.statusText || `Discord returned ${guildsResponse.status}`;
       return Response.json(
-        { error: "Failed to fetch Discord servers", details: errorText },
+        { error: "Failed to fetch Discord servers", details },
         { status: guildsResponse.status }
       );
     }
 
-    let guilds = [];
-    if (guildsText) {
-      try {
-        guilds = JSON.parse(guildsText);
-      } catch {
-        return Response.json(
-          { error: "Failed to parse Discord response", details: "Invalid JSON returned by Discord" },
-          { status: 502 }
-        );
-      }
-    }
+    const guilds = guildsText ? JSON.parse(guildsText) : [];
 
     const normalizedGuilds = Array.isArray(guilds)
       ? guilds.map((guild) => ({
           id: String(guild.id),
-          name: String(guild.name || "Unknown Server"),
-          icon: guild.icon || null,
+          name: String(guild.name ?? "Unknown Server"),
+          icon: guild.icon ?? null,
           owner: Boolean(guild.owner),
-          permissions: String(guild.permissions || "0"),
+          permissions: String(guild.permissions ?? "0"),
         }))
       : [];
 
