@@ -2,37 +2,24 @@ import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 async function getDiscordToken(userId) {
-  const getTokenMethod =
-    clerkClient?.users?.getUserOauthAccessToken?.bind(clerkClient.users) ??
-    clerkClient?.users?.getUserOAuthAccessToken?.bind(clerkClient.users) ??
-    clerkClient?.getUserOauthAccessToken?.bind(clerkClient) ??
-    clerkClient?.getUserOAuthAccessToken?.bind(clerkClient);
-
-  if (!getTokenMethod) {
-    throw new Error(
-      "Clerk OAuth token retrieval is unavailable. Check your Clerk package and runtime configuration."
-    );
+  try {
+    const client = typeof clerkClient === "function" ? await clerkClient() : clerkClient;
+    const response = await client.users.getUserOauthAccessToken(userId, "oauth_discord");
+    
+    const tokens = response?.data ?? (Array.isArray(response) ? response : []);
+    const token = tokens[0];
+    
+    return token?.token ?? token?.accessToken ?? token?.access_token ?? null;
+  } catch (err) {
+    console.error("Clerk token fetch failed:", err);
+    throw err;
   }
-
-  const tokenResponse = await getTokenMethod(userId, "oauth_discord");
-
-  const tokenPayload =
-    Array.isArray(tokenResponse) && tokenResponse.length > 0
-      ? tokenResponse[0]
-      : tokenResponse?.data?.[0] ?? tokenResponse;
-
-  return (
-    tokenPayload?.access_token ??
-    tokenPayload?.accessToken ??
-    tokenPayload?.token ??
-    tokenPayload?.oauth_access_token ??
-    tokenPayload?.oauth_token ??
-    null
-  );
 }
 
 export async function GET() {
   try {
+    console.log("Clerk client type:", typeof clerkClient);
+
     const user = await currentUser();
 
     if (!user?.id) {
@@ -68,6 +55,7 @@ export async function GET() {
         guildsText ||
         guildsResponse.statusText ||
         `Discord returned ${guildsResponse.status}`;
+      console.error("Discord API error:", guildsResponse.status, details);
       return NextResponse.json(
         { error: "Failed to fetch Discord servers", details },
         { status: guildsResponse.status }
@@ -88,6 +76,7 @@ export async function GET() {
 
     return NextResponse.json({ guilds: normalizedGuilds });
   } catch (error) {
+    console.error("Discord guilds route error:", error);
     return NextResponse.json(
       { error: "Internal server error", details: String(error) },
       { status: 500 }
