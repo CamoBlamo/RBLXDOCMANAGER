@@ -13,6 +13,7 @@ async function getDiscordToken(userId) {
 
   return (
     tokenPayload?.access_token ??
+    tokenPayload?.accessToken ??
     tokenPayload?.token ??
     tokenPayload?.oauth_access_token ??
     tokenPayload?.oauth_token ??
@@ -51,7 +52,9 @@ export async function GET() {
 
     if (!guildsResponse.ok) {
       const details =
-        guildsText || guildsResponse.statusText || `Discord returned ${guildsResponse.status}`;
+        guildsText ||
+        guildsResponse.statusText ||
+        `Discord returned ${guildsResponse.status}`;
       return Response.json(
         { error: "Failed to fetch Discord servers", details },
         { status: guildsResponse.status }
