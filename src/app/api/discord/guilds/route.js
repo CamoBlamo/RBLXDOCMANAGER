@@ -1,20 +1,32 @@
-import { clerkClient, currentUser } from "@clerk/nextjs/server";
+import { Clerk } from "@clerk/clerk-sdk-node";
+import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+const clerk = new Clerk({
+  apiKey: process.env.CLERK_API_KEY,
+  apiUrl: process.env.CLERK_API_URL ?? "https://api.clerk.com",
+});
+
 async function getDiscordToken(userId) {
+  if (!process.env.CLERK_API_KEY) {
+    throw new Error("Missing CLERK_API_KEY in server environment");
+  }
+
+  const usersApi = clerk.users;
   const getTokenMethod =
-    clerkClient?.users?.getUserOAuthAccessToken?.bind(clerkClient.users) ??
-    clerkClient?.users?.getUserOauthAccessToken?.bind(clerkClient.users) ??
-    clerkClient?.getUserOAuthAccessToken?.bind(clerkClient) ??
-    clerkClient?.getUserOauthAccessToken?.bind(clerkClient);
+    usersApi?.getUserOAuthAccessToken ??
+    usersApi?.getUserOauthAccessToken;
 
   if (!getTokenMethod) {
     throw new Error(
-      "Clerk OAuth token retrieval is unavailable. Check your Clerk SDK version and imports."
+      "Clerk OAuth token retrieval is unavailable. Verify your Clerk SDK version."
     );
   }
 
-  const tokenResponse = await getTokenMethod(userId, "oauth_discord");
+  const tokenResponse =
+    getTokenMethod.length === 1
+      ? await getTokenMethod({ userId, provider: "oauth_discord" })
+      : await getTokenMethod(userId, "oauth_discord");
 
   const tokenPayload =
     Array.isArray(tokenResponse) && tokenResponse.length > 0
