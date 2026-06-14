@@ -1,14 +1,21 @@
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 
 async function getDiscordToken(userId) {
-  const client = await clerkClient();
-  const tokenResponse = await client.users.getUserOauthAccessToken(
+  const tokenResponse = await clerkClient.users.getUserOauthAccessToken(
     userId,
     "oauth_discord"
   );
 
+  const tokenPayload =
+    Array.isArray(tokenResponse) && tokenResponse.length > 0
+      ? tokenResponse[0]
+      : tokenResponse?.data?.[0] ?? tokenResponse;
+
   const token =
-    tokenResponse?.data?.[0]?.token || tokenResponse?.[0]?.token || null;
+    tokenPayload?.access_token ??
+    tokenPayload?.token ??
+    tokenPayload?.oauth_access_token ??
+    null;
 
   return token;
 }
