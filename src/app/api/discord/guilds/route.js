@@ -1,4 +1,5 @@
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 async function getDiscordToken(userId) {
   const tokenResponse = await clerkClient.users.getUserOauthAccessToken(
@@ -26,13 +27,13 @@ export async function GET() {
     const user = await currentUser();
 
     if (!user?.id) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const token = await getDiscordToken(user.id);
 
     if (!token) {
-      return Response.json(
+      return NextResponse.json(
         {
           error:
             "Discord account token not found. Reconnect Discord with the 'guilds' scope in Clerk.",
@@ -41,12 +42,15 @@ export async function GET() {
       );
     }
 
-    const guildsResponse = await fetch("https://discord.com/api/users/@me/guilds", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    });
+    const guildsResponse = await fetch(
+      "https://discord.com/api/users/@me/guilds",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
 
     const guildsText = await guildsResponse.text();
 
@@ -55,7 +59,7 @@ export async function GET() {
         guildsText ||
         guildsResponse.statusText ||
         `Discord returned ${guildsResponse.status}`;
-      return Response.json(
+      return NextResponse.json(
         { error: "Failed to fetch Discord servers", details },
         { status: guildsResponse.status }
       );
@@ -73,9 +77,9 @@ export async function GET() {
         }))
       : [];
 
-    return Response.json({ guilds: normalizedGuilds });
+    return NextResponse.json({ guilds: normalizedGuilds });
   } catch (error) {
-    return Response.json(
+    return NextResponse.json(
       { error: "Internal server error", details: String(error) },
       { status: 500 }
     );
