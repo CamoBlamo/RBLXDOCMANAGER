@@ -47,15 +47,27 @@ export async function GET() {
       cache: "no-store",
     });
 
+    const guildsText = await guildsResponse.text();
+
     if (!guildsResponse.ok) {
-      const errorText = (await guildsResponse.text()) || guildsResponse.statusText || "No response body";
+      const errorText = guildsText || guildsResponse.statusText || "No response body";
       return Response.json(
         { error: "Failed to fetch Discord servers", details: errorText },
         { status: guildsResponse.status }
       );
     }
 
-    const guilds = await guildsResponse.json();
+    let guilds = [];
+    if (guildsText) {
+      try {
+        guilds = JSON.parse(guildsText);
+      } catch {
+        return Response.json(
+          { error: "Failed to parse Discord response", details: "Invalid JSON returned by Discord" },
+          { status: 502 }
+        );
+      }
+    }
 
     const normalizedGuilds = Array.isArray(guilds)
       ? guilds.map((guild) => ({
