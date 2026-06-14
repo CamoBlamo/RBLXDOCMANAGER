@@ -1396,3 +1396,11 @@ gap: 8px;
     width: 100%;
   }
 }
+select,
+select option {
+  color: #000;
+}
+
+select option {
+  background: #fff;
+}
