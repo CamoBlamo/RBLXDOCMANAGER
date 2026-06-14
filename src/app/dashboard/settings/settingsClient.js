@@ -34,7 +34,9 @@ export default function SettingsClient({ profileImageUrl, profileName, email, ex
 
         <div className="settings-div" hidden={active !== "account"}>
           <h2>Account Settings</h2>
-          {/* account content */}
+          <p>Username: {profileName}</p>
+          <p>Email: {email}</p>
+          <p>Account Security Access Code: 837482</p> {/* This is a placeholder. This code will be rotating. */}
         </div>
 
         <div className="settings-div" hidden={active !== "standing"}>
