@@ -11,58 +11,67 @@ async function getDiscordToken(userId) {
       ? tokenResponse[0]
       : tokenResponse?.data?.[0] ?? tokenResponse;
 
-  const token =
+  return (
     tokenPayload?.access_token ??
     tokenPayload?.token ??
     tokenPayload?.oauth_access_token ??
-    null;
-
-  return token;
+    tokenPayload?.oauth_token ??
+    null
+  );
 }
 
 export async function GET() {
-  const user = await currentUser();
+  try {
+    const user = await currentUser();
 
-  if (!user?.id) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+    if (!user?.id) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const token = await getDiscordToken(user.id);
-  if (!token) {
-    return Response.json(
-      {
-        error:
-          "Discord account token not found. Reconnect Discord with the 'guilds' scope in Clerk.",
+    const token = await getDiscordToken(user.id);
+
+    if (!token) {
+      return Response.json(
+        {
+          error:
+            "Discord account token not found. Reconnect Discord with the 'guilds' scope in Clerk.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const guildsResponse = await fetch("https://discord.com/api/users/@me/guilds", {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      { status: 400 }
-    );
-  }
+      cache: "no-store",
+    });
 
-  const guildsResponse = await fetch("https://discord.com/api/users/@me/guilds", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    cache: "no-store",
-  });
+    if (!guildsResponse.ok) {
+      const errorText = (await guildsResponse.text()) || guildsResponse.statusText || "No response body";
+      return Response.json(
+        { error: "Failed to fetch Discord servers", details: errorText },
+        { status: guildsResponse.status }
+      );
+    }
 
-  if (!guildsResponse.ok) {
-    const errorText = await guildsResponse.text();
+    const guilds = await guildsResponse.json();
+
+    const normalizedGuilds = Array.isArray(guilds)
+      ? guilds.map((guild) => ({
+          id: String(guild.id),
+          name: String(guild.name || "Unknown Server"),
+          icon: guild.icon || null,
+          owner: Boolean(guild.owner),
+          permissions: String(guild.permissions || "0"),
+        }))
+      : [];
+
+    return Response.json({ guilds: normalizedGuilds });
+  } catch (error) {
     return Response.json(
-      { error: "Failed to fetch Discord servers", details: errorText },
-      { status: guildsResponse.status }
+      { error: "Internal server error", details: String(error) },
+      { status: 500 }
     );
   }
-
-  const guilds = await guildsResponse.json();
-  const normalizedGuilds = Array.isArray(guilds)
-    ? guilds.map((guild) => ({
-        id: String(guild.id),
-        name: String(guild.name || "Unknown Server"),
-        icon: guild.icon || null,
-        owner: Boolean(guild.owner),
-        permissions: String(guild.permissions || "0"),
-      }))
-    : [];
-
-  return Response.json({ guilds: normalizedGuilds });
 }
