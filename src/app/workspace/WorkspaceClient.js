@@ -28,20 +28,31 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeSection, setActiveSection] = useState("dashboard");
-  const [isConfidential, setIsConfidential] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [workspaces, setWorkspaces] = useState([]);
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState("");
   const [documents, setDocuments] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [settingsMode, setSettingsMode] = useState("view");
+  const [workspaceForm, setWorkspaceForm] = useState({
+    name: "",
+    description: "",
+    guildName: "",
+    visibility: "private",
+  });
   const [loading, setLoading] = useState(true);
+  const [savingSettings, setSavingSettings] = useState(false);
   const [creatingDoc, setCreatingDoc] = useState(false);
+  const [creatingDepartment, setCreatingDepartment] = useState(false);
   const [error, setError] = useState("");
 
   const selectedWorkspace = useMemo(
     () => workspaces.find((item) => item.id === selectedWorkspaceId) || null,
     [workspaces, selectedWorkspaceId]
   );
+
+  const workspaceSettingsTitle = selectedWorkspace?.name || "Workspace settings";
 
   const filteredDocuments = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -140,6 +151,116 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
     }
   }
 
+  async function loadDepartments(workspaceId) {
+    if (!workspaceId) {
+      setDepartments([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/departments?workspaceId=${workspaceId}`, {
+        cache: "no-store",
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || "Failed to load departments");
+      }
+      setDepartments(data.departments || []);
+    } catch (loadError) {
+      setError(String(loadError?.message || "Failed to load departments"));
+      setDepartments([]);
+    }
+  }
+
+  async function createDepartment() {
+    if (!selectedWorkspaceId || creatingDepartment) return;
+    if (!newDepartmentName.trim()) {
+      setError("Department name is required.");
+      return;
+    }
+
+    setCreatingDepartment(true);
+    setError("");
+    try {
+      const response = await fetch("/api/departments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          workspaceId: selectedWorkspaceId,
+          name: newDepartmentName.trim(),
+          description: newDepartmentDescription.trim(),
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || "Failed to create department");
+      }
+      setNewDepartmentName("");
+      setNewDepartmentDescription("");
+      await loadDepartments(selectedWorkspaceId);
+    } catch (createError) {
+      setError(String(createError?.message || "Failed to create department"));
+    } finally {
+      setCreatingDepartment(false);
+    }
+  }
+
+  async function loadWorkspaceSettings(workspaceId) {
+    if (!workspaceId) return;
+    try {
+      const response = await fetch(`/api/workspaces?workspaceId=${workspaceId}`, { cache: "no-store" });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || "Failed to load workspace settings");
+      }
+      const workspace = data.workspace;
+      if (workspace) {
+        setWorkspaceForm({
+          name: workspace.name || "",
+          description: workspace.description || "",
+          guildName: workspace.guildName || "",
+          visibility: workspace.visibility || "private",
+        });
+      }
+    } catch (loadError) {
+      setError(String(loadError?.message || "Failed to load workspace settings"));
+    }
+  }
+
+  async function saveWorkspaceSettings() {
+    if (!selectedWorkspaceId || savingSettings) return;
+    setSavingSettings(true);
+    setError("");
+    try {
+      const response = await fetch("/api/workspaces", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          workspaceId: selectedWorkspaceId,
+          ...workspaceForm,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || "Failed to save workspace settings");
+      }
+      const updated = data.workspace;
+      setWorkspaces((current) =>
+        current.map((item) => (item.id === updated.id ? updated : item))
+      );
+      setSelectedWorkspaceId(updated.id);
+      setSettingsMode("view");
+    } catch (saveError) {
+      setError(String(saveError?.message || "Failed to save workspace settings"));
+    } finally {
+      setSavingSettings(false);
+    }
+  }
+
   useEffect(() => {
     loadWorkspaces();
   }, []);
@@ -158,6 +279,8 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
 
   useEffect(() => {
     loadDocuments(selectedWorkspaceId);
+    loadDepartments(selectedWorkspaceId);
+    loadWorkspaceSettings(selectedWorkspaceId);
   }, [selectedWorkspaceId]);
 
   async function createDocument() {
@@ -249,6 +372,13 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
             </button>
             <button
               type="button"
+              aria-pressed={activeSection === "settings"}
+              onClick={() => setActiveSection("settings")}
+            >
+              Settings
+            </button>
+            <button
+              type="button"
               aria-pressed={activeSection === "logs"}
               onClick={() => setActiveSection("logs")}
             >
@@ -307,6 +437,12 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
                   <li key={doc.id}>
                     <span>{doc.title}</span>
                     <small>{formatAgo(doc.updatedAt)}</small>
+                    <Link
+                      href={`/workspace/documentview?workspaceId=${selectedWorkspaceId}&docId=${doc.id}`}
+                      className="open-workspace-btn secondary"
+                    >
+                      View
+                    </Link>
                   </li>
                 ))}
                 {filteredDocuments.length === 0 ? (
@@ -349,14 +485,137 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
 
             <article
               className="workspace-ops-card"
+              hidden={activeSection !== "departments" && activeSection !== "dashboard"}
+            >
+              <h3>Departments</h3>
+              <div className="workspace-ops-form-row">
+                <label>
+                  Name
+                  <input
+                    type="text"
+                    value={newDepartmentName}
+                    onChange={(event) => setNewDepartmentName(event.target.value)}
+                    placeholder="New department"
+                  />
+                </label>
+                <label>
+                  Description
+                  <textarea
+                    value={newDepartmentDescription}
+                    onChange={(event) => setNewDepartmentDescription(event.target.value)}
+                    placeholder="Optional department description"
+                    rows={3}
+                  />
+                </label>
+                <button
+                  type="button"
+                  className="open-workspace-btn"
+                  onClick={createDepartment}
+                  disabled={!selectedWorkspaceId || creatingDepartment}
+                >
+                  {creatingDepartment ? "Creating..." : "Add department"}
+                </button>
+              </div>
+
+              <ul className="workspace-ops-list">
+                {departments.length > 0 ? (
+                  departments.map((department) => (
+                    <li key={department.id}>
+                      <span>{department.name}</span>
+                      <small>{department.description || "No description"}</small>
+                    </li>
+                  ))
+                ) : (
+                  <li>
+                    <span>No departments yet.</span>
+                    <small>Use the form above to add one.</small>
+                  </li>
+                )}
+              </ul>
+            </article>
+
+            <article
+              className="workspace-ops-card"
               hidden={activeSection !== "permissions" && activeSection !== "dashboard"}
             >
-              <h3>Alerts</h3>
+              <h3>Workspace access</h3>
               <ul className="workspace-ops-alerts">
                 {alerts.map((alert) => (
                   <li key={alert}>{alert}</li>
                 ))}
               </ul>
+            </article>
+
+            <article
+              className="workspace-ops-card"
+              hidden={activeSection !== "settings"}
+            >
+              <h3>{workspaceSettingsTitle}</h3>
+              <div className="workspace-ops-form-row">
+                <label>
+                  Workspace name
+                  <input
+                    type="text"
+                    value={workspaceForm.name}
+                    onChange={(event) =>
+                      setWorkspaceForm((prev) => ({ ...prev, name: event.target.value }))
+                    }
+                    placeholder="Workspace name"
+                  />
+                </label>
+                <label>
+                  Server name
+                  <input
+                    type="text"
+                    value={workspaceForm.guildName}
+                    onChange={(event) =>
+                      setWorkspaceForm((prev) => ({ ...prev, guildName: event.target.value }))
+                    }
+                    placeholder="Connected Discord server"
+                  />
+                </label>
+                <label>
+                  Description
+                  <textarea
+                    value={workspaceForm.description}
+                    onChange={(event) =>
+                      setWorkspaceForm((prev) => ({ ...prev, description: event.target.value }))
+                    }
+                    placeholder="Workspace description"
+                    rows={4}
+                  />
+                </label>
+                <label>
+                  Visibility
+                  <select
+                    value={workspaceForm.visibility}
+                    onChange={(event) =>
+                      setWorkspaceForm((prev) => ({ ...prev, visibility: event.target.value }))
+                    }
+                  >
+                    <option value="private">Private</option>
+                    <option value="members">Members</option>
+                    <option value="restricted">Restricted</option>
+                  </select>
+                </label>
+                <div className="workspace-ops-form-actions">
+                  <button
+                    type="button"
+                    className="open-workspace-btn"
+                    onClick={saveWorkspaceSettings}
+                    disabled={!selectedWorkspaceId || savingSettings}
+                  >
+                    {savingSettings ? "Saving..." : "Save settings"}
+                  </button>
+                  <button
+                    type="button"
+                    className="open-workspace-btn secondary"
+                    onClick={() => setSettingsMode("view")}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </article>
           </div>
 
@@ -376,8 +635,13 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
             >
               {creatingDoc ? "Creating..." : "+ New Document"}
             </button>
-            <button type="button" className="open-workspace-btn secondary">
-              + New Department
+            <button
+              type="button"
+              className="open-workspace-btn secondary"
+              onClick={() => setActiveSection("settings")}
+              disabled={!selectedWorkspaceId}
+            >
+              Workspace Settings
             </button>
           </div>
 
@@ -395,8 +659,8 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
               ))}
               {recentActivity.length === 0 ? (
                 <li data-kind="warning">
-                  <span>No document activity yet.</span>
-                  <small>Waiting</small>
+                  <span>No activity recorded.</span>
+                  <small>Check back after editing or sharing documents.</small>
                 </li>
               ) : null}
             </ul>
@@ -407,26 +671,16 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
             hidden={activeSection !== "documents" && activeSection !== "dashboard"}
           >
             <div className="workspace-ops-document-header">
-              <h3>{primaryDocument?.title || "Policy Update Document"}</h3>
+              <h3>{primaryDocument?.title || "Recent document"}</h3>
               <div className="workspace-ops-tags">
-                <span>{isConfidential ? "Confidential" : "Internal"}</span>
                 <span>{selectedWorkspace?.guildName || "Workspace"}</span>
+                <span>{primaryDocument?.visibility || "workspace"}</span>
               </div>
             </div>
             <p>
               {primaryDocument?.summary ||
-                "Review updates and maintain your policy documents here."}
+                "Quick access to your latest document content and edit link."}
             </p>
-            <div className="workspace-ops-confidential-toggle">
-              <span>Confidential</span>
-              <button
-                type="button"
-                aria-pressed={isConfidential}
-                onClick={() => setIsConfidential((value) => !value)}
-              >
-                {isConfidential ? "On" : "Off"}
-              </button>
-            </div>
             <p className="workspace-ops-footer-meta">
               Last edited {primaryDocument ? formatAgo(primaryDocument.updatedAt) : "never"}
             </p>

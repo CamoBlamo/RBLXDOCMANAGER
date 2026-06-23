@@ -74,6 +74,25 @@ export async function GET(request) {
     return Response.json({ error: access.error }, { status: access.status });
   }
 
+  const documentId = url.searchParams.get("documentId");
+  if (documentId) {
+    const documentObjectId = parseObjectId(documentId);
+    if (!documentObjectId) {
+      return Response.json({ error: "Invalid documentId" }, { status: 400 });
+    }
+
+    const doc = await access.db.collection("documents").findOne({
+      _id: documentObjectId,
+      workspaceId: String(access.workspaceObjectId),
+    });
+
+    if (!doc) {
+      return Response.json({ error: "Document not found" }, { status: 404 });
+    }
+
+    return Response.json({ document: serializeDocument(doc) });
+  }
+
   const docs = await access.db
     .collection("documents")
     .find({ workspaceId: String(access.workspaceObjectId) })
