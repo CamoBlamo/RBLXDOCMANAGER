@@ -85,11 +85,11 @@ export default function DocumentViewClient({
       <main className="workspace-ops-page">
         <section className="workspace-ops-card">
           <h1>{document.title || "Untitled Document"}</h1>
-          <p className="workspace-ops-subtitle">{document.summary || "No summary provided."}</p>
+          {document.summary && <p className="workspace-ops-subtitle">{document.summary}</p>}
           <div className="workspace-ops-meta">
+            <span>Last updated {new Date(document.updatedAt).toLocaleDateString()} at {new Date(document.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
             <span>Visibility: {document.visibility}</span>
-            <span>Minimum role: {document.minimumRole}</span>
-            <span>Updated: {new Date(document.updatedAt).toLocaleString()}</span>
+            {document.minimumRole && <span>Minimum role: {document.minimumRole}</span>}
           </div>
         </section>
 
