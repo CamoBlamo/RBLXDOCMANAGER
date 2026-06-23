@@ -67,21 +67,28 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
     });
   }, [documents, searchQuery]);
 
+  const [memberNames, setMemberNames] = useState({});
+
   const activeMembers = useMemo(() => {
     if (!selectedWorkspace) return [];
     const owner = {
-      username: selectedWorkspace.ownerClerkUserId,
+      id: selectedWorkspace.ownerClerkUserId,
+      username: memberNames[selectedWorkspace.ownerClerkUserId] || selectedWorkspace.ownerClerkUserId,
       status: "Owner",
     };
     const admins = (selectedWorkspace.adminClerkUserIds || [])
       .filter((id) => id !== selectedWorkspace.ownerClerkUserId)
       .slice(0, 5)
-      .map((id) => ({ username: id, status: "Admin" }));
+      .map((id) => ({
+        id,
+        username: memberNames[id] || id,
+        status: "Admin",
+      }));
     return [owner, ...admins].map((person) => ({
       ...person,
       presence: documents.length > 0 ? statusFromDate(documents[0].updatedAt) : "Idle",
     }));
-  }, [selectedWorkspace, documents]);
+  }, [selectedWorkspace, documents, memberNames]);
 
   const alerts = useMemo(() => {
     if (!selectedWorkspace) return [];
@@ -225,9 +232,34 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
           guildName: workspace.guildName || "",
           visibility: workspace.visibility || "private",
         });
+        const ids = [
+          workspace.ownerClerkUserId,
+          ...(workspace.adminClerkUserIds || []),
+        ].filter(Boolean);
+        if (ids.length > 0) {
+          await loadMemberNames(ids);
+        }
       }
     } catch (loadError) {
       setError(String(loadError?.message || "Failed to load workspace settings"));
+    }
+  }
+
+  async function loadMemberNames(ids) {
+    if (ids.length === 0) return;
+    try {
+      const response = await fetch(`/api/users?ids=${ids.join(",")}`, { cache: "no-store" });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || "Failed to load member names");
+      }
+      const map = {};
+      (data.users || []).forEach((user) => {
+        if (user?.id) map[user.id] = user.username;
+      });
+      setMemberNames(map);
+    } catch {
+      // ignore lookup failure; fall back to IDs
     }
   }
 
