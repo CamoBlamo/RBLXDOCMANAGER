@@ -28,46 +28,28 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .toArray();
 
-    const workspaces = docs.map(serializeWorkspace);
-    const owned = workspaces.filter((w) => w.ownerClerkUserId === user.id);
-    const shared = workspaces.filter((w) => w.ownerClerkUserId !== user.id);
+    const workspaces = docs.map((doc) => {
+      const workspace = serializeWorkspace(doc);
+      return {
+        ...workspace,
+        access: {
+          ownerClerkUserId: workspace.ownerClerkUserId,
+          adminClerkUserIds: workspace.adminClerkUserIds,
+          adminDiscordUserIds: workspace.adminDiscordUserIds,
+          allowedAppRoles: workspace.allowedAppRoles,
+          allowedDiscordUserIds: workspace.allowedDiscordUserIds,
+          visibility: workspace.visibility,
+        },
+      };
+    });
+    const owned = workspaces.filter((workspace) => workspace.ownerClerkUserId === user.id);
+    const shared = workspaces.filter((workspace) => workspace.ownerClerkUserId !== user.id);
 
     return NextResponse.json({ owned, shared, all: workspaces });
   } catch (err) {
     console.error("[GET /workspaces]", err.message);
     return DB_ERROR("Failed to fetch workspaces.");
   }
-<<<<<<< HEAD
-
-  const db = await getDb();
-  const collection = db.collection("workspaces");
-
-  const docs = await collection
-    .find({})
-    .sort({ createdAt: -1 })
-    .toArray();
-
-  const workspaces = docs.map((doc) => {
-    const workspace = serializeWorkspace(doc);
-    return {
-      ...workspace,
-      access: {
-        ownerClerkUserId: workspace.ownerClerkUserId,
-        adminClerkUserIds: workspace.adminClerkUserIds,
-        adminDiscordUserIds: workspace.adminDiscordUserIds,
-        allowedAppRoles: workspace.allowedAppRoles,
-        allowedDiscordUserIds: workspace.allowedDiscordUserIds,
-        visibility: workspace.visibility,
-      },
-    };
-  });
-
-  const owned = workspaces.filter((workspace) => workspace.ownerClerkUserId === user.id);
-  const shared = workspaces.filter((workspace) => workspace.ownerClerkUserId !== user.id);
-
-  return Response.json({ owned, shared, all: workspaces });
-=======
->>>>>>> 07022e53033fed1b756df4117805573716219829
 }
 
 export async function POST(request) {
