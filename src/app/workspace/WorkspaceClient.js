@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import DashboardTopbar from "../components/DashboardTopbar";
 
 function formatAgo(isoDate) {
@@ -27,6 +28,7 @@ function statusFromDate(isoDate) {
 export default function WorkspaceClient({ profileImageUrl, profileName }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user } = useUser();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -367,6 +369,11 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
         <aside className="workspace-ops-sidebar">
           <h2>{selectedWorkspace?.name || "Workspace"}</h2>
           <p className="workspace-ops-subtitle">Operations Console</p>
+          {user?.username && (
+            <p style={{ fontSize: "13px", color: "#999", margin: "8px 0 0" }}>
+              Logged in as: <strong>{user.username}</strong>
+            </p>
+          )}
 
           <nav className="workspace-ops-nav">
             <button
