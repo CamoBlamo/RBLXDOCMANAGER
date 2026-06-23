@@ -1,6 +1,8 @@
 import DashboardTopbar from "../components/DashboardTopbar";
 import { currentUser } from "@clerk/nextjs/server";
 import { ensureUserRole } from "../../lib/roles";
+import { getDb } from "../../lib/mongodb";
+import { serializeWorkspace } from "../../lib/workspaces";
 import Link from "next/link";
 
 export default async function DashboardPage() {
@@ -21,6 +23,17 @@ export default async function DashboardPage() {
     user?.firstName ||
     "User";
 
+  const db = await getDb();
+  const docs = await db
+    .collection("workspaces")
+    .find({})
+    .sort({ createdAt: -1 })
+    .toArray();
+  const workspaces = docs.map(serializeWorkspace);
+  const documentsCount = await db.collection("documents").countDocuments();
+  const workspaceCount = workspaces.length;
+  const pendingReviews = 0;
+
   return (
     <>
       <DashboardTopbar
@@ -40,15 +53,15 @@ export default async function DashboardPage() {
           <div className="dashboard-metrics">
             <article className="dashboard-metric-card">
               <p className="metric-label">Workspaces</p>
-              <p className="metric-value">3</p>
+              <p className="metric-value">{workspaceCount}</p>
             </article>
             <article className="dashboard-metric-card">
               <p className="metric-label">Active Documents</p>
-              <p className="metric-value">27</p>
+              <p className="metric-value">{documentsCount}</p>
             </article>
             <article className="dashboard-metric-card">
               <p className="metric-label">Pending Reviews</p>
-              <p className="metric-value">5</p>
+              <p className="metric-value">{pendingReviews}</p>
             </article>
           </div>
         </div>
@@ -65,19 +78,44 @@ export default async function DashboardPage() {
             documents and settings.
           </p>
           <div className="workspace-list">
-            <div className="workspace-card-template">
-              <h3>Workspace Name</h3>
-              <p><strong>Owner:</strong> Owner Name</p>
-              <p><strong>Created On:</strong> Creation Date</p>
-              <div className="workspace-card-actions">
-                <Link href="/workspace" className="open-workspace-btn">
-                  Open Workspace
-                </Link>
-                <button className="open-workspace-btn secondary">
-                  Manage Members
-                </button>
+            {workspaces.length === 0 ? (
+              <div className="workspace-card-template">
+                <h3>No workspaces yet</h3>
+                <p>Create one to begin managing documents and members.</p>
               </div>
-            </div>
+            ) : (
+              workspaces.map((workspace) => (
+                <article key={workspace.id} className="workspace-card-template">
+                  <h3>{workspace.name || "Untitled Workspace"}</h3>
+                  <p>
+                    <strong>Owner:</strong> {workspace.ownerClerkUserId}
+                  </p>
+                  <p>
+                    <strong>Server:</strong> {workspace.guildName || "Unknown"}
+                  </p>
+                  <p>
+                    <strong>Created On:</strong>{" "}
+                    {workspace.createdAt
+                      ? new Date(workspace.createdAt).toLocaleDateString()
+                      : "Unknown"}
+                  </p>
+                  <div className="workspace-card-actions">
+                    <Link
+                      href={`/workspace?workspaceId=${workspace.id}`}
+                      className="open-workspace-btn"
+                    >
+                      Open Workspace
+                    </Link>
+                    <Link
+                      href={`/workspace?workspaceId=${workspace.id}`}
+                      className="open-workspace-btn secondary"
+                    >
+                      Manage Members
+                    </Link>
+                  </div>
+                </article>
+              ))
+            )}
           </div>
         </div>
       </main>

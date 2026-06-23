@@ -16,16 +16,24 @@ export async function GET() {
   const collection = db.collection("workspaces");
 
   const docs = await collection
-    .find({
-      $or: [
-        { ownerClerkUserId: user.id },
-        { adminClerkUserIds: user.id },
-      ],
-    })
+    .find({})
     .sort({ createdAt: -1 })
     .toArray();
 
-  const workspaces = docs.map(serializeWorkspace);
+  const workspaces = docs.map((doc) => {
+    const workspace = serializeWorkspace(doc);
+    return {
+      ...workspace,
+      access: {
+        ownerClerkUserId: workspace.ownerClerkUserId,
+        adminClerkUserIds: workspace.adminClerkUserIds,
+        adminDiscordUserIds: workspace.adminDiscordUserIds,
+        allowedAppRoles: workspace.allowedAppRoles,
+        allowedDiscordUserIds: workspace.allowedDiscordUserIds,
+        visibility: workspace.visibility,
+      },
+    };
+  });
 
   const owned = workspaces.filter((workspace) => workspace.ownerClerkUserId === user.id);
   const shared = workspaces.filter((workspace) => workspace.ownerClerkUserId !== user.id);

@@ -203,83 +203,7 @@ export default function NewWorkspaceClient({ profileImageUrl, profileName }) {
               </select>
             </label>
           </div>
-
-          <section className="new-workspace-permissions">
-            <div className="new-workspace-role-column">
-              <h2>Admin Discord User IDs</h2>
-              <p>
-                These Discord user IDs always have full admin access. Find them in
-                Discord Settings &rarr; Advanced &rarr; Copy User ID.
-              </p>
-              <label className="new-workspace-field">
-                <textarea
-                  value={adminDiscordUserIdsText}
-                  onChange={(event) => setAdminDiscordUserIdsText(event.target.value)}
-                  rows={4}
-                  placeholder={"123456789012345678,\n987654321098765432"}
-                />
-              </label>
-            </div>
-
-            <div className="new-workspace-role-column">
-              <h2>Allowed Discord User IDs</h2>
-              <p>
-                Only relevant when visibility is Restricted. These users can view
-                this workspace regardless of their app role.
-              </p>
-              <label className="new-workspace-field">
-                <textarea
-                  value={allowedDiscordUserIdsText}
-                  onChange={(event) => setAllowedDiscordUserIdsText(event.target.value)}
-                  rows={4}
-                  placeholder={"123456789012345678,\n987654321098765432"}
-                />
-              </label>
-            </div>
-
-            <div className="new-workspace-role-column">
-              <h2>Allowed App Roles</h2>
-              <p>
-                Users with these app roles can access when visibility is Restricted.
-                Toggle all that should be allowed.
-              </p>
-              <div className="new-workspace-role-list">
-                {APP_ROLES.map((role) => (
-                  <label key={role} className="new-workspace-check-row">
-                    <input
-                      type="checkbox"
-                      checked={allowedAppRoles.includes(role)}
-                      onChange={() => toggleAppRole(role)}
-                    />
-                    {role}
-                  </label>
-                ))}
-              </div>
-
-              <h2 style={{ marginTop: "16px" }}>Admin Clerk User IDs</h2>
-              <p>Comma-separated Clerk user IDs for co-admins (from Clerk dashboard).</p>
-              <label className="new-workspace-field">
-                <input
-                  type="text"
-                  value={adminClerkUserIdsText}
-                  onChange={(event) => setAdminClerkUserIdsText(event.target.value)}
-                  placeholder="user_abc,user_xyz"
-                />
-              </label>
-            </div>
           </section>
-
-          <div className="workspace-card-actions" style={{ marginTop: "16px" }}>
-            <button
-              type="button"
-              className="create-workspace-btn"
-              onClick={createWorkspace}
-              disabled={creating || !selectedGuildId}
-            >
-              {creating ? "Creating..." : "Create Workspace"}
-            </button>
-          </div>
-        </section>
 
         <section className="new-workspace-card">
           <h2>Your Workspaces</h2>
@@ -291,6 +215,31 @@ export default function NewWorkspaceClient({ profileImageUrl, profileName }) {
                 <h3>{workspace.name}</h3>
                 <p><strong>Server:</strong> {workspace.guildName}</p>
                 <p><strong>Visibility:</strong> {workspace.visibility}</p>
+                <p><strong>Owner:</strong> {workspace.ownerClerkUserId}</p>
+                <p>
+                  <strong>Clerk admins:</strong>{" "}
+                  {workspace.adminClerkUserIds.length > 0
+                    ? workspace.adminClerkUserIds.join(", ")
+                    : "None"}
+                </p>
+                <p>
+                  <strong>Discord admins:</strong>{" "}
+                  {workspace.adminDiscordUserIds.length > 0
+                    ? workspace.adminDiscordUserIds.join(", ")
+                    : "None"}
+                </p>
+                <p>
+                  <strong>Allowed app roles:</strong>{" "}
+                  {workspace.allowedAppRoles.length > 0
+                    ? workspace.allowedAppRoles.join(", ")
+                    : "None"}
+                </p>
+                <p>
+                  <strong>Allowed Discord IDs:</strong>{" "}
+                  {workspace.allowedDiscordUserIds.length > 0
+                    ? workspace.allowedDiscordUserIds.join(", ")
+                    : "None"}
+                </p>
                 <p>
                   <strong>Admins:</strong> {workspace.adminClerkUserIds.length} Clerk,{" "}
                   {workspace.adminDiscordUserIds.length} Discord users

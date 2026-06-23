@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import DashboardTopbar from "../components/DashboardTopbar";
 
@@ -26,6 +26,7 @@ function statusFromDate(isoDate) {
 
 export default function WorkspaceClient({ profileImageUrl, profileName }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isConfidential, setIsConfidential] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -104,7 +105,12 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
       const list = data.all || [];
       setWorkspaces(list);
       if (list.length > 0) {
-        setSelectedWorkspaceId((current) => current || list[0].id);
+        const queryWorkspaceId = searchParams?.get("workspaceId");
+        const selectedId =
+          queryWorkspaceId && list.some((item) => item.id === queryWorkspaceId)
+            ? queryWorkspaceId
+            : list[0].id;
+        setSelectedWorkspaceId((current) => current || selectedId);
       }
     } catch (loadError) {
       setError(String(loadError?.message || "Failed to load workspaces"));
@@ -137,6 +143,18 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
   useEffect(() => {
     loadWorkspaces();
   }, []);
+
+  useEffect(() => {
+    if (!searchParams) return;
+    const queryWorkspaceId = searchParams.get("workspaceId");
+    if (
+      queryWorkspaceId &&
+      queryWorkspaceId !== selectedWorkspaceId &&
+      workspaces.some((workspace) => workspace.id === queryWorkspaceId)
+    ) {
+      setSelectedWorkspaceId(queryWorkspaceId);
+    }
+  }, [searchParams, workspaces, selectedWorkspaceId]);
 
   useEffect(() => {
     loadDocuments(selectedWorkspaceId);
