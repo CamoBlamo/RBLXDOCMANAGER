@@ -15,7 +15,11 @@ export default function DocumentViewClient({
 
   useEffect(() => {
     async function loadDocument() {
-      if (!workspaceId || !docId) {
+      const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const effectiveWorkspaceId = workspaceId || params?.get("workspaceId") || "";
+      const effectiveDocId = docId || params?.get("docId") || "";
+
+      if (!effectiveWorkspaceId || !effectiveDocId) {
         setError("Missing workspace or document ID.");
         setLoading(false);
         return;
@@ -24,7 +28,7 @@ export default function DocumentViewClient({
       setError("");
       try {
         const response = await fetch(
-          `/api/documents?workspaceId=${workspaceId}&documentId=${docId}`,
+          `/api/documents?workspaceId=${effectiveWorkspaceId}&documentId=${effectiveDocId}`,
           { cache: "no-store" }
         );
         const data = await response.json();

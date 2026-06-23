@@ -472,7 +472,10 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
                     <span>{doc.title}</span>
                     <small>{formatAgo(doc.updatedAt)}</small>
                     <Link
-                      href={`/workspace/documentview?workspaceId=${selectedWorkspaceId}&docId=${doc.id}`}
+                      href={{
+                        pathname: "/workspace/documentview",
+                        query: { workspaceId: selectedWorkspaceId, docId: doc.id },
+                      }}
                       className="open-workspace-btn secondary"
                     >
                       View
