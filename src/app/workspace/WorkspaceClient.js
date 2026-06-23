@@ -34,6 +34,8 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState("");
   const [documents, setDocuments] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [newDepartmentName, setNewDepartmentName] = useState("");
+  const [newDepartmentDescription, setNewDepartmentDescription] = useState("");
   const [settingsMode, setSettingsMode] = useState("view");
   const [workspaceForm, setWorkspaceForm] = useState({
     name: "",
