@@ -313,6 +313,17 @@ export default function NewWorkspaceClient({ profileImageUrl, profileName }) {
                 />
               </label>
             </div>
+
+             <div className="workspace-card-actions" style={{ marginTop: "16px" }}>
+            <button
+              type="button"
+              className="create-workspace-btn"
+              onClick={createWorkspace}
+              disabled={creating || !selectedGuildId}
+            >
+              {creating ? "Creating..." : "Create Workspace"}
+            </button>
+          </div>
           </section>
       </main>
     </>
