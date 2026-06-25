@@ -27,9 +27,9 @@ export default function SettingsClient({ profileImageUrl, profileName, email, ex
           >Account Standing</button>
           <button
             className="open-workspace-btn"
-            aria-pressed={active === "other"}
-            onClick={() => setActive("other")}
-          >Other Preferences</button>
+            aria-pressed={active === "themes"}
+            onClick={() => setActive("themes")}
+          > Themes</button>
         </div>
 
         <div className="settings-div" hidden={active !== "account"}>
@@ -41,11 +41,14 @@ export default function SettingsClient({ profileImageUrl, profileName, email, ex
 
         <div className="settings-div" hidden={active !== "standing"}>
           <h2>Account Standing</h2>
-          {/* standing content */}
+          <p id="account-standing-status">STANDING STATUS</p>
+
+          <button id="report-issue-btn" className="open-workspace-btn secondary">View Previous Violations</button>
         </div>
 
-        <div className="settings-div" hidden={active !== "other"}>
-          <h2>Other Preferences</h2>
+        <div className="settings-div" hidden={active !== "themes"}>
+          <h2>Themes</h2>
+          <p>Choose your preferred theme.</p>
           {/* other content */}
         </div>
       </main>

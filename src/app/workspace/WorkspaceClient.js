@@ -513,8 +513,8 @@ export default function WorkspaceClient({ profileImageUrl, profileName }) {
               <h3>Active Members</h3>
               <ul className="workspace-ops-members">
                 {activeMembers.map((member) => (
-                  <li key={user?.username}>
-                    <span>{user?.username}</span>
+                  <li key={member?.username}>
+                    <span>{member?.username}</span>
                     <strong>{member.presence}</strong>
                   </li>
                 ))}

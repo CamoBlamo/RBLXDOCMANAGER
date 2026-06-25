@@ -1650,3 +1650,7 @@ select option {
 select option {
   background: #fff;
 }
+#account-standing-status { 
+  color: rgb(22, 201, 22);
+  font-weight: bold;
+}
