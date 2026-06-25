@@ -21,10 +21,8 @@ export default function NewWorkspaceClient({ profileImageUrl, profileName }) {
   const [selectedGuildId, setSelectedGuildId] = useState("");
   const [visibility, setVisibility] = useState("private");
   const [allowedAppRoles, setAllowedAppRoles] = useState(["user"]);
-  // Comma-separated Discord user IDs (snowflakes) — no bot needed
   const [adminDiscordUserIdsText, setAdminDiscordUserIdsText] = useState("");
   const [allowedDiscordUserIdsText, setAllowedDiscordUserIdsText] = useState("");
-  // Comma-separated Clerk user IDs for co-admins
   const [adminClerkUserIdsText, setAdminClerkUserIdsText] = useState("");
 
   const [workspaces, setWorkspaces] = useState([]);
@@ -204,9 +202,7 @@ export default function NewWorkspaceClient({ profileImageUrl, profileName }) {
             </label>
           </div>
 
-          <section className="new-workspace-permissions">
-
-             <div className="workspace-card-actions" style={{ marginTop: "16px" }}>
+          <div className="workspace-card-actions" style={{ marginTop: "16px" }}>
             <button
               type="button"
               className="create-workspace-btn"
@@ -216,9 +212,7 @@ export default function NewWorkspaceClient({ profileImageUrl, profileName }) {
               {creating ? "Creating..." : "Create Workspace"}
             </button>
           </div>
-          </section>
-          
-          </section>
+        </section>
 
         <section className="new-workspace-card">
           <h2>Your Workspaces</h2>
